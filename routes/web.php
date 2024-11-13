@@ -50,8 +50,10 @@ Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'
 
 // Ruta para mostrar el formulario de verificación
 Route::get('/verify', [loginController::class, 'showVerificationForm'])->name('verify');
-
-Route::get('/notificaciones/{id}/marcar-como-leida', [NotificacionController::class, 'marcarComoLeida'])->name('notificaciones.marcarComoLeida');
+// Rutas en web.php
+Route::get('/notificaciones/marcar-como-leida/{id}', [NotificacionController::class, 'marcarComoLeida'])->name('notificaciones.marcarComoLeida');
+Route::get('/notificaciones', [NotificacionController::class, 'index'])->name('notificaciones.index');
+Route::post('/notificaciones/{id}/marcar-como-leida', [NotificacionController::class, 'marcarComoLeida']);
 // Ruta correcta para la comunidad
 Route::get('/pedidos/comunidad', [PedidoController::class, 'comunidad'])->name('pedidos.comunidad');
 Route::get('/pedidos/my', [PedidoController::class, 'my'])->name('pedidos.my');
@@ -106,6 +108,7 @@ Route::get('/register', [userController::class, 'register'])->name('register');
 Route::get('/login', [loginController::class, 'index'])->name('login');
 Route::post('/login', [loginController::class, 'login']);
 Route::get('/logout', [logoutController::class, 'logout'])->name('logout');
+Route::post('/auth/login', [UserController::class, 'storelogin'])->name('storelogin');
 
 Route::get('/401', function () {
     return view('pages.401');

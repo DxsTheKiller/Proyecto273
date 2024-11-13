@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreProductoRequest;
 use App\Http\Requests\UpdateProductoRequest;
 use App\Models\Producto;
+use App\Models\Notificacione;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -107,10 +108,7 @@ class ProductoController extends Controller
 
             $producto->save();
             DB::commit();
-
-            // Enviar notificación de éxito
-            Notification::success('Producto registrado exitosamente.');
-
+            Notificacione::crearNotificacion(auth()->id(), 'Producto registrado exitosamente.');
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->with('error', $e->getMessage());
@@ -164,8 +162,7 @@ class ProductoController extends Controller
             DB::commit();
 
             // Enviar notificación de éxito
-            Notification::success('Producto actualizado exitosamente.');
-
+            Notificacione::crearNotificacion(auth()->id(), 'Producto actualizado exitosamente.');
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->with('error', $e->getMessage());
@@ -182,7 +179,8 @@ class ProductoController extends Controller
         $producto->delete();
 
         // Enviar notificación de éxito
-        Notification::success('Producto eliminado exitosamente.');
+        
+        Notificacione::crearNotificacion(auth()->id(), 'Producto eliminado exitosamente.');
 
         return redirect()->route('productos.index')->with('success', 'Producto Eliminado');
     }

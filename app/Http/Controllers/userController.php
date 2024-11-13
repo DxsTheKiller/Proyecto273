@@ -17,8 +17,7 @@ class userController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('permission:ver-user', ['only' => ['index']]);
-        $this->middleware('permission:crear-user', ['only' => ['create', 'store', 'register', 'storelogin']]);
+        $this->middleware('permission:ver-user', ['only' => ['index','create', 'store', 'register']]);
         $this->middleware('permission:editar-user', ['only' => ['edit', 'update']]);
         $this->middleware('permission:eliminar-user', ['only' => ['destroy']]);
     }
@@ -115,7 +114,7 @@ class userController extends Controller
 
             // Crear el usuario con la comunidad seleccionada o creada
             $user = User::create(array_merge($request->all(), [
-                'comunidad_id' => $comunidad->id, // Asignar la comunidad al usuario
+                'comunidad_id' => $request->comunidade, // Asignar la comunidad al usuario
             ]));
 
             // Asignar rol

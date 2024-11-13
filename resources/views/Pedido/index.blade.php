@@ -122,16 +122,29 @@
                             <input type="text" class="form-control" id="direccion" name="direccion" required>
                         </div>
                         <div class="mb-3">
-                            <label for="ciudad" class="form-label">Ciudad</label>
-                            <input type="text" class="form-control" id="ciudad" name="ciudad" required>
-                        </div>
-                        <div id="map" style="height: 400px;"></div>
-                        <input type="hidden" id="latitud" name="latitud">
-                        <input type="hidden" id="longitud" name="longitud">
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                            <button type="submit" class="btn btn-primary">Guardar Dirección</button>
-                        </div>
+                            <div class="mb-3">
+                                <label for="ciudad" class="form-label">Departamento</label>
+                                <select class="form-control" id="ciudad" name="ciudad" required>
+                                    <option value="">Seleccione un departamento</option>
+                                    <option value="Chuquisaca">Chuquisaca</option>
+                                    <option value="La Paz">La Paz</option>
+                                    <option value="Cochabamba">Cochabamba</option>
+                                    <option value="Oruro">Oruro</option>
+                                    <option value="Potosí">Potosí</option>
+                                    <option value="Tarija">Tarija</option>
+                                    <option value="Santa Cruz">Santa Cruz</option>
+                                    <option value="Beni">Beni</option>
+                                    <option value="Pando">Pando</option>
+                                </select>
+                            </div>
+
+                            <div id="map" style="height: 400px;"></div>
+                            <input type="hidden" id="latitud" name="latitud">
+                            <input type="hidden" id="longitud" name="longitud">
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                <button type="submit" class="btn btn-primary">Guardar Dirección</button>
+                            </div>
                     </form>
                 </div>
             </div>

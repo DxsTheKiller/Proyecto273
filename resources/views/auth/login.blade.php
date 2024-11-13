@@ -56,7 +56,7 @@
                 </form>
 
                 <!-- Formulario de Registro -->
-                <form action="{{ route('users.store') }}" method="post" class="sign-up-form">
+                <form action="{{ route('storelogin') }}" method="post" class="sign-up-form">
                     @csrf
                     <h2 class="title">Crear una Cuenta</h2>
                     <input type="hidden" name="source" value="registration"> <!-- Cambia esto según tu caso -->

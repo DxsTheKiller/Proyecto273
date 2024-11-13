@@ -15,7 +15,7 @@ class PermissionSeeder extends Seeder
     {
         $permisos=[
             //producto
-           /* 'ver-producto',
+            'ver-producto',
             'ver-miproducto',
             'ver-productocomunidad',
             'crear-producto',
@@ -50,7 +50,7 @@ class PermissionSeeder extends Seeder
             //direccion
             'ver-direccion',
             'crear-direccion',
-            'asociar-direccion',*/
+            'asociar-direccion',
             'crear-pago'
 
         ];

@@ -7,15 +7,17 @@ use Illuminate\Http\Request;
 
 class NotificacionController extends Controller
 {
+    
     public function marcarComoLeida($id)
-    {
-        $notificacion = Notificacione::find($id);
-        
-        if ($notificacion) {
-            $notificacion->leida = true; // Cambiar el estado a leído
-            $notificacion->save();
-        }
+{
+    $notificacion = Notificacione::find($id);
 
-        return redirect()->back(); // Redirigir de nuevo a la página anterior
+    if ($notificacion) {
+        $notificacion->leida = true;
+        $notificacion->save();
     }
+
+    return response()->json(['success' => true]); // Devuelve un JSON para confirmar el éxito
+}
+    
 }

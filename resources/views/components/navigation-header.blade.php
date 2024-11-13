@@ -11,37 +11,76 @@
             </button>
         </div>
     </form>
-    <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" id="notificationDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="fas fa-bell fa-fw"></i>
-                <span class="badge bg-danger">{{ auth()->user()->notificaciones()->where('leida', false)->count() }}</span>
-            </a>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationDropdown">
-                @forelse(auth()->user()->notificaciones as $notificacion)
-                    <li>
-                        <a class="dropdown-item" href="{{ route('notificaciones.marcarComoLeida', $notificacion->id) }}">
-                            <strong>{{ $notificacion->mensaje }}</strong> 
-                            <small class="text-muted">{{ \Carbon\Carbon::parse($notificacion->fecha_envio)->diffForHumans() }}</small>
-                        </a>
-                    </li>
-                @empty
-                    <li><a class="dropdown-item" href="#!">No hay notificaciones</a></li>
-                @endforelse
-                <li><hr class="dropdown-divider" /></li>
-                <li><a class="dropdown-item" href="#!">Ver todas las notificaciones</a></li>
-            </ul>
-        </li>
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="fas fa-user fa-fw"></i>
-            </a>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="#!">Configuraciones</a></li>
-                <li><a class="dropdown-item" href="#!">Registro de actividad</a></li>
-                <li><hr class="dropdown-divider" /></li>
-                <li><a class="dropdown-item" href="{{ route('logout') }}">Cerrar sesión</a></li>
-            </ul>
-        </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" id="notificationDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fas fa-bell fa-fw" style="font-size: 1.5rem;"></i> <!-- Icono con tamaño ajustado -->
+            <span id="notification-count" class="badge bg-danger">{{ auth()->user()->notificaciones()->where('leida', false)->count() }}</span>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationDropdown">
+            @foreach(auth()->user()->notificaciones->take(5) as $notificacion)
+            <li>
+                <a id="notificacion-{{ $notificacion->id }}" class="dropdown-item 
+                    {{ $notificacion->leida ? '' : 'font-weight-bold' }}" 
+                    onmouseover="marcarLeida('{{ $notificacion->id }}')">
+                    <strong>{{ $notificacion->mensaje }}</strong>
+                    <small class="text-muted">{{ \Carbon\Carbon::parse($notificacion->fecha_envio)->diffForHumans() }}</small>
+                </a>
+            </li>
+            @endforeach
+            <li>
+                <hr class="dropdown-divider" />
+            </li>
+        </ul>
+    </li>
+
+    <script>
+        function marcarLeida(notificacionId) {
+            fetch(`/notificaciones/marcar-como-leida/${notificacionId}`, {
+                    method: 'GET',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Cambiar el contador de notificaciones no leídas
+                        let notificationCount = document.getElementById('notification-count');
+                        let newCount = parseInt(notificationCount.innerText) - 1;
+                        notificationCount.innerText = newCount >= 0 ? newCount : 0;
+
+                        // Cambiar el estilo de la notificación para mostrar que ha sido leída
+                        const notification = document.getElementById(`notificacion-${notificacionId}`);
+                        if (notification) {
+                            notification.classList.add('leida'); // Puedes agregar una clase para marcar como leída
+                            notification.classList.remove('font-weight-bold'); // Eliminar la negrita cuando se marca como leída
+                        }
+                    }
+                })
+                .catch(error => console.error('Error al marcar la notificación:', error));
+        }
+    </script>
+
+    <style>
+        .leida {
+            background-color: #f8f9fa;
+            /* Estilo para las notificaciones leídas */
+            font-style: italic;
+        }
+    </style>
+
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fas fa-user fa-fw"></i>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="#!">Configuraciones</a></li>
+            <li><a class="dropdown-item" href="#!">Registro de actividad</a></li>
+            <li>
+                <hr class="dropdown-divider" />
+            </li>
+            <li><a class="dropdown-item" href="{{ route('logout') }}">Cerrar sesión</a></li>
+        </ul>
+    </li>
     </ul>
 </nav>

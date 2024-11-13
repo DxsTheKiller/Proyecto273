@@ -99,6 +99,8 @@
             {{ auth()->user()->nombre . ' ' . auth()->user()->apellido }}
             <div class="small">Comunidad:</div>
             {{ auth()->user()->comunidad->nombre }}
+            <div class="small">Rol:</div>
+            {{ auth()->user()->getRoleNames()->first() }}
         </div>
     </nav>
 </div>
